@@ -6,7 +6,10 @@ This application is a React-based 3D Galaxy Map visualizer. It uses `deck.gl` fo
 ## Directory Structure
 - `/src/components/`: React UI components.
   - `MapView.tsx`: The core 3D map component wrapping `DeckGL`. Handles camera controls, rendering scatterplot, path, and text layers, as well as user interactions (click/drag/hover).
-  - `MapControls.tsx`: UI overlay for filtering the map by Galaxy Arm and Sector.
+  - `MapControls.tsx`: UI overlay container for coordinating map UI panels and controls.
+  - `MapHeader.tsx`: Atomic heading component showing the map title and subtitle.
+  - `MapFilters.tsx`: Atomic filter controls for choosing the galaxy arm and sector.
+  - `MapStats.tsx`: Atomic statistical summary showing total, explored, and unexplored systems.
   - `SelectedObjectPopup.tsx`: A detail popup component that renders detailed information about a selected star system or trading hub.
   - `SidebarLayout.tsx` & `SidebarContent.tsx`: Application sidebar layout and content elements.
 - `/src/types/`: Centralized TypeScript interfaces and type definitions. All domain and component types MUST be declared here to ensure a single source of truth.

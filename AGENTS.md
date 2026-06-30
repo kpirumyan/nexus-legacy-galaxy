@@ -21,6 +21,7 @@ Each system consists of planets and asteroid fields.
 ## Coding Standards & Type Safety
 - **Do not use the `any` type in the application.** Always use proper TypeScript types, generics, `unknown`, or interfaces instead of `any`.
 - **Never use linter or TypeScript suppressions** (e.g., `@ts-ignore`, `@ts-expect-error`, `eslint-disable`). Fix the underlying type or linting issues properly instead.
+- **Atomic UI Components Approach:** Decompose large components into smaller, modular, and single-responsibility atomic components (e.g., splitting headers, filter selectors, stats, charts, or popup sub-panels into distinct files). Ensure each atomic component remains isolated and has clear prop definitions.
 
 ## Application Architecture
 - **Read the [ARCHITECTURE.md](./.agents/ARCHITECTURE.md) file** when you need to understand the structural context of the application, component responsibilities, or where to add new features.

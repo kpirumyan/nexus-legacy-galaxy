@@ -25,6 +25,27 @@ export interface MapControlsProps {
   error: string | null;
 }
 
+export interface MapHeaderProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export interface MapFiltersProps {
+  selectedArm: string;
+  setSelectedArm: (arm: string) => void;
+  selectedSector: string;
+  setSelectedSector: (sector: string) => void;
+  uniqueArms: (string | number)[];
+  uniqueSectors: (string | number)[];
+  systems: GalaxySystem[];
+}
+
+export interface MapStatsProps {
+  filteredSystems: GalaxySystem[];
+  loading: boolean;
+  error: string | null;
+}
+
 export interface MapViewProps {
   systems: GalaxySystem[];
   loading: boolean;
