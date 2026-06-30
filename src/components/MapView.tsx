@@ -7,18 +7,19 @@ import { SphereGeometry } from '@luma.gl/engine';
 
 import { INITIAL_VIEW_STATE, lightingEffect, STAR_CONFIGS, VISIBILITY_OPACITIES } from '../lib/constants';
 import { getHoverTooltip } from '../lib/tooltip';
+import { filterSystems } from '../lib/utils';
 import { SelectedObjectPopup } from './SelectedObjectPopup';
 import { MapControls } from './MapControls';
 
 interface MapViewProps {
-  planets: any[];
+  systems: any[];
   loading: boolean;
   error: string | null;
   selectedObject: any | null;
   onSelectObject: (obj: any | null) => void;
 }
 
-export function MapView({ planets, loading, error, selectedObject, onSelectObject }: MapViewProps) {
+export function MapView({ systems, loading, error, selectedObject, onSelectObject }: MapViewProps) {
   const [selectedArm, setSelectedArm] = useState<string>('all');
   const [selectedSector, setSelectedSector] = useState<string>('all');
 
@@ -79,39 +80,35 @@ export function MapView({ planets, loading, error, selectedObject, onSelectObjec
   const sphereGeometry = useMemo(() => new SphereGeometry(), []);
 
   const uniqueArms = useMemo(() => {
-    return Array.from(new Set(planets.map((p: any) => p.armId)))
+    return Array.from(new Set(systems.map((p: any) => p.armId)))
       .filter(v => v != null)
       .sort((a: any, b: any) => String(a).localeCompare(String(b), undefined, { numeric: true }));
-  }, [planets]);
+  }, [systems]);
 
   const uniqueSectors = useMemo(() => {
-    const relevantPlanets = selectedArm === 'all' 
-      ? planets 
-      : planets.filter((p: any) => String(p.armId) === selectedArm);
+    const relevantSystems = selectedArm === 'all' 
+      ? systems 
+      : systems.filter((p: any) => String(p.armId) === selectedArm);
     
-    return Array.from(new Set(relevantPlanets.map((p: any) => p.sectorId)))
+    return Array.from(new Set(relevantSystems.map((p: any) => p.sectorId)))
       .filter(v => v != null)
       .sort((a: any, b: any) => String(a).localeCompare(String(b), undefined, { numeric: true }));
-  }, [planets, selectedArm]);
+  }, [systems, selectedArm]);
 
   useEffect(() => {
     setSelectedSector('all');
   }, [selectedArm]);
 
-  const filteredPlanets = useMemo(() => {
-    return planets.filter((p: any) => {
-      const armMatch = selectedArm === 'all' || String(p.armId) === selectedArm;
-      const sectorMatch = selectedSector === 'all' || String(p.sectorId) === selectedSector;
-      return armMatch && sectorMatch;
-    });
-  }, [planets, selectedArm, selectedSector]);
+  const filteredSystems = useMemo(() => {
+    return filterSystems(systems, selectedArm, selectedSector);
+  }, [systems, selectedArm, selectedSector]);
 
-  const homeSystem = filteredPlanets.find((p: any) => p.name === 'G3-37' && p.sectorId === 103 && p.armId === 3);
+  const homeSystem = filteredSystems.find((p: any) => p.name === 'G3-37' && p.sectorId === 103 && p.armId === 3);
 
   const layers = [
     new SimpleMeshLayer({
-      id: 'planets-2d',
-      data: filteredPlanets,
+      id: 'systems-2d',
+      data: filteredSystems,
       mesh: sphereGeometry,
       pickable: true,
       onClick: (info) => {
@@ -155,7 +152,7 @@ export function MapView({ planets, loading, error, selectedObject, onSelectObjec
     }),
     new PathLayer({
       id: 'trading-hubs-squares',
-      data: filteredPlanets.filter((p: any) => p.isTradingHub),
+      data: filteredSystems.filter((p: any) => p.isTradingHub),
       getPath: (d: any) => {
         const r = 10;
         const x = d.x || 0;
@@ -179,7 +176,7 @@ export function MapView({ planets, loading, error, selectedObject, onSelectObjec
     }),
     new TextLayer({
       id: 'trading-hub-labels',
-      data: filteredPlanets.filter((p: any) => p.isTradingHub),
+      data: filteredSystems.filter((p: any) => p.isTradingHub),
       getPosition: (d: any) => [d.x || 0, d.y || 0, d.z || 0] as [number, number, number],
       getText: (d: any) => d.name || 'Trading Post',
       getSize: 12,
@@ -333,8 +330,8 @@ export function MapView({ planets, loading, error, selectedObject, onSelectObjec
         setSelectedSector={setSelectedSector}
         uniqueArms={uniqueArms}
         uniqueSectors={uniqueSectors}
-        planets={planets}
-        filteredPlanets={filteredPlanets}
+        systems={systems}
+        filteredSystems={filteredSystems}
         loading={loading}
         error={error}
       />

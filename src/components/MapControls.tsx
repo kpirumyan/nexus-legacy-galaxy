@@ -8,8 +8,8 @@ interface Props {
   setSelectedSector: (sector: string) => void;
   uniqueArms: any[];
   uniqueSectors: any[];
-  planets: any[];
-  filteredPlanets: any[];
+  systems: any[];
+  filteredSystems: any[];
   loading: boolean;
   error: string | null;
 }
@@ -21,8 +21,8 @@ export function MapControls({
   setSelectedSector, 
   uniqueArms, 
   uniqueSectors,
-  planets,
-  filteredPlanets,
+  systems,
+  filteredSystems,
   loading,
   error
 }: Props) {
@@ -140,8 +140,8 @@ export function MapControls({
               {uniqueSectors.map(sector => {
                 let armIdStr = selectedArm !== 'all' ? selectedArm : null;
                 if (!armIdStr) {
-                   const planet = planets.find(p => String(p.sectorId) === String(sector));
-                   if (planet) armIdStr = String(planet.armId);
+                   const system = systems.find(p => String(p.sectorId) === String(sector));
+                   if (system) armIdStr = String(system.armId);
                 }
                 const prefix = armIdStr && ARM_MAPPING[armIdStr] ? ARM_MAPPING[armIdStr].prefix : '';
                 const sId = Number(sector);
@@ -203,9 +203,9 @@ export function MapControls({
       {error && <p style={{ margin: 0, color: '#ff6b6b', fontSize: '13px' }}>Error: {error}</p>}
       {!loading && !error && (
         <div style={{ fontSize: '12px', color: '#ccc', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <div>Total Systems: <strong style={{ color: '#fff' }}>{filteredPlanets.length}</strong></div>
-          <div>Explored: <strong style={{ color: '#52c41a' }}>{filteredPlanets.filter((p: any) => p.visibility !== 'fog').length}</strong></div>
-          <div>Unexplored: <strong style={{ color: '#ff9800' }}>{filteredPlanets.filter((p: any) => p.visibility === 'fog').length}</strong></div>
+          <div>Total Systems: <strong style={{ color: '#fff' }}>{filteredSystems.length}</strong></div>
+          <div>Explored: <strong style={{ color: '#52c41a' }}>{filteredSystems.filter((p: any) => p.visibility !== 'fog').length}</strong></div>
+          <div>Unexplored: <strong style={{ color: '#ff9800' }}>{filteredSystems.filter((p: any) => p.visibility === 'fog').length}</strong></div>
         </div>
       )}
     </div>

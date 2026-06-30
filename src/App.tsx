@@ -6,7 +6,7 @@ import { MapView } from './components/MapView';
 import { processGalaxyData3D } from './lib/utils';
 
 export default function App() {
-  const [planets, setPlanets] = useState<any[]>([]);
+  const [systems, setSystems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedObject, setSelectedObject] = useState<any | null>(null);
@@ -21,10 +21,10 @@ export default function App() {
         }
         
         const data = await response.json();
-        const planetsData = Array.isArray(data) ? data : (data.planets || data.data || data.map || data.systems || []);
+        const systemsData = Array.isArray(data) ? data : (data.planets || data.data || data.map || data.systems || []);
         
-        const processedData = processGalaxyData3D(planetsData);
-        setPlanets(processedData);
+        const processedData = processGalaxyData3D(systemsData);
+        setSystems(processedData);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -38,7 +38,7 @@ export default function App() {
   return (
     <SidebarLayout sidebarContent={<SidebarContent object={selectedObject} />}>
       <Routes>
-        <Route path="/" element={<MapView planets={planets} loading={loading} error={error} selectedObject={selectedObject} onSelectObject={setSelectedObject} />} />
+        <Route path="/" element={<MapView systems={systems} loading={loading} error={error} selectedObject={selectedObject} onSelectObject={setSelectedObject} />} />
       </Routes>
     </SidebarLayout>
   );

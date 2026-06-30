@@ -11,6 +11,14 @@ export function formatArmDisplay(armId: any) {
   return ARM_MAPPING[String(armId)]?.name || `Arm ${armId}`;
 }
 
+export function filterSystems(systems: any[], selectedArm: string, selectedSector: string) {
+  return systems.filter((p: any) => {
+    const armMatch = selectedArm === 'all' || String(p.armId) === selectedArm;
+    const sectorMatch = selectedSector === 'all' || String(p.sectorId) === selectedSector;
+    return armMatch && sectorMatch;
+  });
+}
+
 export function processGalaxyData3D(data: any[]) {
   let maxR = 0;
   for (const p of data) {
