@@ -1,0 +1,6 @@
+{
+  "name": "Привет, мир!",
+  "description": "Стартовое приложение.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
