@@ -1,5 +1,9 @@
 # Project Specific Instructions
 
+## Application Architecture
+- **Read the [ARCHITECTURE.md](./.agents/ARCHITECTURE.md) file** when you need to understand the structural context of the application, component responsibilities, or where to add new features.
+- **Always update the [ARCHITECTURE.md](./.agents/ARCHITECTURE.md) file** when adding new logic, new features, or refactoring the application.
+
 ## Testing Policy
 - **Always run unit tests** (`npm run test` or `npx vitest run`) after completing any coding task or making code changes.
 - If the tests fail, analyze the error and attempt to fix the code or the tests.
