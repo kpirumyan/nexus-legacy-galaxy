@@ -1,19 +1,6 @@
 import { X, ChevronDown } from 'lucide-react';
 import { ARM_MAPPING } from '../lib/constants';
-import type { GalaxySystem } from '../types';
-
-interface Props {
-  selectedArm: string;
-  setSelectedArm: (arm: string) => void;
-  selectedSector: string;
-  setSelectedSector: (sector: string) => void;
-  uniqueArms: (string | number)[];
-  uniqueSectors: (string | number)[];
-  systems: GalaxySystem[];
-  filteredSystems: GalaxySystem[];
-  loading: boolean;
-  error: string | null;
-}
+import type { GalaxySystem, MapControlsProps } from '../types';
 
 export function MapControls({ 
   selectedArm, 
@@ -26,7 +13,7 @@ export function MapControls({
   filteredSystems,
   loading,
   error
-}: Props) {
+}: MapControlsProps) {
   return (
     <div style={{
       position: 'absolute',

@@ -1,15 +1,9 @@
 import { X } from 'lucide-react';
 import { STAR_CONFIGS } from '../lib/constants';
 import { formatSectorDisplay, formatArmDisplay } from '../lib/utils';
-import type { GalaxySystem } from '../types';
+import type { SelectedObjectPopupProps } from '../types';
 
-interface Props {
-  selectedObject: GalaxySystem;
-  pos: { x: number, y: number };
-  onClose: () => void;
-}
-
-export function SelectedObjectPopup({ selectedObject, pos, onClose }: Props) {
+export function SelectedObjectPopup({ selectedObject, pos, onClose }: SelectedObjectPopupProps) {
   const displaySector = formatSectorDisplay(selectedObject.sectorId, selectedObject.armId);
   const displayArm = formatArmDisplay(selectedObject.armId);
   

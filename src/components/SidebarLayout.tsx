@@ -1,9 +1,5 @@
-import React, { useState, useRef, useEffect, ReactNode } from 'react';
-
-interface SidebarLayoutProps {
-  children: ReactNode;
-  sidebarContent: ReactNode;
-}
+import React, { useState, useRef, useEffect } from 'react';
+import type { SidebarLayoutProps } from '../types';
 
 export function SidebarLayout({ children, sidebarContent }: SidebarLayoutProps) {
   const [sidebarWidth, setSidebarWidth] = useState(300);

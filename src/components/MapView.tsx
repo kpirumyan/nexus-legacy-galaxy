@@ -10,15 +10,7 @@ import { getHoverTooltip } from '../lib/tooltip';
 import { filterSystems } from '../lib/utils';
 import { SelectedObjectPopup } from './SelectedObjectPopup';
 import { MapControls } from './MapControls';
-import type { GalaxySystem } from '../types';
-
-interface MapViewProps {
-  systems: GalaxySystem[];
-  loading: boolean;
-  error: string | null;
-  selectedObject: GalaxySystem | null;
-  onSelectObject: (obj: GalaxySystem | null) => void;
-}
+import type { GalaxySystem, MapViewProps } from '../types';
 
 export function MapView({ systems, loading, error, selectedObject, onSelectObject }: MapViewProps) {
   const [selectedArm, setSelectedArm] = useState<string>('all');
