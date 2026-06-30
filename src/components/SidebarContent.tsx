@@ -1,6 +1,7 @@
 import React from 'react';
+import type { GalaxySystem } from '../types';
 
-export function SidebarContent({ object }: { object: any }) {
+export function SidebarContent({ object }: { object: GalaxySystem | null }) {
   if (!object) {
     return (
       <div style={{ padding: '20px', color: '#fff', fontFamily: 'sans-serif' }}>

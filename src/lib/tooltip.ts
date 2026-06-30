@@ -1,7 +1,8 @@
 import { STAR_CONFIGS } from './constants';
 import { formatSectorDisplay, formatArmDisplay } from './utils';
+import type { GalaxySystem } from '../types';
 
-export function getHoverTooltip({ object, selectedObject }: { object: any, selectedObject: any | null }) {
+export function getHoverTooltip({ object, selectedObject }: { object: GalaxySystem | null, selectedObject: GalaxySystem | null }) {
   if (!object) return null;
   if (selectedObject && object.id === selectedObject.id) return null;
   
@@ -50,7 +51,7 @@ export function getHoverTooltip({ object, selectedObject }: { object: any, selec
   }
   
   const typeLabel = (object.starType || 'unknown').replace('_', ' ');
-  const starColor = STAR_CONFIGS[object.starType]?.color || [255, 255, 255];
+  const starColor = (object.starType ? STAR_CONFIGS[object.starType]?.color : undefined) || [255, 255, 255];
   const securityColor = 
     object.securityZone === 'rift' ? '#ff4d4d' :
     object.securityZone === 'dead' ? '#ff9c6e' :

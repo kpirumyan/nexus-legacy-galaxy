@@ -1,9 +1,10 @@
 import { X } from 'lucide-react';
 import { STAR_CONFIGS } from '../lib/constants';
 import { formatSectorDisplay, formatArmDisplay } from '../lib/utils';
+import type { GalaxySystem } from '../types';
 
 interface Props {
-  selectedObject: any;
+  selectedObject: GalaxySystem;
   pos: { x: number, y: number };
   onClose: () => void;
 }
@@ -72,7 +73,7 @@ export function SelectedObjectPopup({ selectedObject, pos, onClose }: Props) {
     );
   } else {
     const typeLabel = (selectedObject.starType || 'unknown').replace('_', ' ');
-    const starColor = STAR_CONFIGS[selectedObject.starType]?.color || [255, 255, 255];
+    const starColor = (selectedObject.starType ? STAR_CONFIGS[selectedObject.starType]?.color : undefined) || [255, 255, 255];
     const securityColor = 
       selectedObject.securityZone === 'rift' ? '#ff4d4d' :
       selectedObject.securityZone === 'dead' ? '#ff9c6e' :

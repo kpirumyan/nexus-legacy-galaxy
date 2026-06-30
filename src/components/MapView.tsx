@@ -10,13 +10,14 @@ import { getHoverTooltip } from '../lib/tooltip';
 import { filterSystems } from '../lib/utils';
 import { SelectedObjectPopup } from './SelectedObjectPopup';
 import { MapControls } from './MapControls';
+import type { GalaxySystem } from '../types';
 
 interface MapViewProps {
-  systems: any[];
+  systems: GalaxySystem[];
   loading: boolean;
   error: string | null;
-  selectedObject: any | null;
-  onSelectObject: (obj: any | null) => void;
+  selectedObject: GalaxySystem | null;
+  onSelectObject: (obj: GalaxySystem | null) => void;
 }
 
 export function MapView({ systems, loading, error, selectedObject, onSelectObject }: MapViewProps) {
@@ -26,7 +27,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
   const containerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const dragStartRef = useRef<{ x: number; y: number; target: [number, number, number] } | null>(null);
-  const [viewState, setViewState] = useState<any>(INITIAL_VIEW_STATE);
+  const [viewState, setViewState] = useState<typeof INITIAL_VIEW_STATE>(INITIAL_VIEW_STATE);
   const [rightButtonDown, setRightButtonDown] = useState(false);
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
@@ -80,19 +81,19 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
   const sphereGeometry = useMemo(() => new SphereGeometry(), []);
 
   const uniqueArms = useMemo(() => {
-    return Array.from(new Set(systems.map((p: any) => p.armId)))
+    return Array.from(new Set(systems.map((p: GalaxySystem) => p.armId)))
       .filter(v => v != null)
-      .sort((a: any, b: any) => String(a).localeCompare(String(b), undefined, { numeric: true }));
+      .sort((a: unknown, b: unknown) => String(a).localeCompare(String(b), undefined, { numeric: true }));
   }, [systems]);
 
   const uniqueSectors = useMemo(() => {
     const relevantSystems = selectedArm === 'all' 
       ? systems 
-      : systems.filter((p: any) => String(p.armId) === selectedArm);
+      : systems.filter((p: GalaxySystem) => String(p.armId) === selectedArm);
     
-    return Array.from(new Set(relevantSystems.map((p: any) => p.sectorId)))
+    return Array.from(new Set(relevantSystems.map((p: GalaxySystem) => p.sectorId)))
       .filter(v => v != null)
-      .sort((a: any, b: any) => String(a).localeCompare(String(b), undefined, { numeric: true }));
+      .sort((a: unknown, b: unknown) => String(a).localeCompare(String(b), undefined, { numeric: true }));
   }, [systems, selectedArm]);
 
   useEffect(() => {
@@ -103,7 +104,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
     return filterSystems(systems, selectedArm, selectedSector);
   }, [systems, selectedArm, selectedSector]);
 
-  const homeSystem = filteredSystems.find((p: any) => p.name === 'G3-37' && p.sectorId === 103 && p.armId === 3);
+  const homeSystem = filteredSystems.find((p: GalaxySystem) => p.name === 'G3-37' && p.sectorId === 103 && p.armId === 3);
 
   const layers = [
     new SimpleMeshLayer({
@@ -113,13 +114,13 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
       pickable: true,
       onClick: (info) => {
         if (info.object) {
-          onSelectObject(info.object);
+          onSelectObject(info.object as GalaxySystem);
         }
       },
-      getPosition: (d: any) => {
+      getPosition: (d: GalaxySystem) => {
         return [d.x || 0, d.y || 0, d.z || 0] as [number, number, number];
       },
-      getColor: (d: any) => {
+      getColor: (d: GalaxySystem) => {
         if (d.isTradingHub) {
           return [255, 255, 255, 255] as [number, number, number, number];
         }
@@ -138,7 +139,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
         return [255, 255, 255, opacity] as [number, number, number, number]; 
       },
       getOrientation: [0, 0, 0],
-      getScale: (d: any) => {
+      getScale: (d: GalaxySystem) => {
         if (d.isTradingHub) {
           return [2.5, 2.5, 2.5];
         }
@@ -146,14 +147,14 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
           const yellowSize = STAR_CONFIGS['yellow'].size;
           return [yellowSize, yellowSize, yellowSize]; 
         }
-        const baseSize = STAR_CONFIGS[d.starType]?.size ?? 1.5;
+        const baseSize = d.starType && STAR_CONFIGS[d.starType] ? STAR_CONFIGS[d.starType].size : 1.5;
         return [baseSize, baseSize, baseSize];
       }
     }),
     new PathLayer({
       id: 'trading-hubs-squares',
-      data: filteredSystems.filter((p: any) => p.isTradingHub),
-      getPath: (d: any) => {
+      data: filteredSystems.filter((p: GalaxySystem) => p.isTradingHub),
+      getPath: (d: GalaxySystem) => {
         const r = 10;
         const x = d.x || 0;
         const y = d.y || 0;
@@ -176,9 +177,9 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
     }),
     new TextLayer({
       id: 'trading-hub-labels',
-      data: filteredSystems.filter((p: any) => p.isTradingHub),
-      getPosition: (d: any) => [d.x || 0, d.y || 0, d.z || 0] as [number, number, number],
-      getText: (d: any) => d.name || 'Trading Post',
+      data: filteredSystems.filter((p: GalaxySystem) => p.isTradingHub),
+      getPosition: (d: GalaxySystem) => [d.x || 0, d.y || 0, d.z || 0] as [number, number, number],
+      getText: (d: GalaxySystem) => d.name || 'Trading Post',
       getSize: 12,
       getColor: [255, 210, 0, 255],
       getTextAnchor: 'middle',
@@ -199,8 +200,8 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
         { radius: 35, color: [110, 30, 180, 90] },
       ],
       getPosition: [0, 0, 0],
-      getFillColor: (d: any) => d.color,
-      getRadius: (d: any) => d.radius,
+      getFillColor: (d: { radius: number; color: number[] }) => d.color as [number, number, number, number],
+      getRadius: (d: { radius: number; color: number[] }) => d.radius,
       filled: true,
       stroked: false,
       pickable: false,
@@ -208,9 +209,9 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
     new ScatterplotLayer({
       id: 'rift-core-hole',
       data: [{ radius: 22, x: 0, y: 0, z: 0 }],
-      getPosition: (d: any) => [d.x, d.y, d.z] as [number, number, number],
+      getPosition: (d: { radius: number; x: number; y: number; z: number }) => [d.x, d.y, d.z] as [number, number, number],
       getFillColor: [0, 0, 0, 255],
-      getRadius: (d: any) => d.radius,
+      getRadius: (d: { radius: number; x: number; y: number; z: number }) => d.radius,
       filled: true,
       stroked: false,
       pickable: false,
@@ -219,7 +220,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
       new ScatterplotLayer({
         id: 'home-system-highlight',
         data: [homeSystem],
-        getPosition: (d: any) => [d.x || 0, d.y || 0, d.z || 0] as [number, number, number],
+        getPosition: (d: GalaxySystem) => [d.x || 0, d.y || 0, d.z || 0] as [number, number, number],
         getFillColor: [0, 0, 0, 0],
         getLineColor: [0, 255, 0, 255],
         lineWidthMinPixels: 2,
@@ -259,7 +260,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
           const worldDx = dx / scale;
           const worldDy = dy / scale;
           
-          setViewState((prev: any) => ({
+          setViewState((prev: typeof INITIAL_VIEW_STATE) => ({
             ...prev,
             target: [
               dragStartRef.current!.target[0] - worldDx,
@@ -296,7 +297,12 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
       <DeckGL
         views={new OrthographicView()}
         viewState={viewState}
-        onViewStateChange={({ viewState: nextViewState }) => setViewState(nextViewState)}
+        onViewStateChange={({ viewState: nextViewState }) => {
+          setViewState({
+            target: (nextViewState.target as [number, number, number]) || [0, 0, 0],
+            zoom: (nextViewState.zoom as number) ?? 0
+          });
+        }}
         controller={{
           dragPan: false,
           dragRotate: false,

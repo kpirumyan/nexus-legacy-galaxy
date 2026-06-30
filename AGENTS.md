@@ -18,6 +18,10 @@ Each system consists of planets and asteroid fields.
 ## Language Policy
 - **Always write all agent files (e.g., AGENTS.md, ARCHITECTURE.md) and code comments in English.**
 
+## Coding Standards & Type Safety
+- **Do not use the `any` type in the application.** Always use proper TypeScript types, generics, `unknown`, or interfaces instead of `any`.
+- **Never use linter or TypeScript suppressions** (e.g., `@ts-ignore`, `@ts-expect-error`, `eslint-disable`). Fix the underlying type or linting issues properly instead.
+
 ## Application Architecture
 - **Read the [ARCHITECTURE.md](./.agents/ARCHITECTURE.md) file** when you need to understand the structural context of the application, component responsibilities, or where to add new features.
 - **Always update the [ARCHITECTURE.md](./.agents/ARCHITECTURE.md) file** when adding new logic, new features, or refactoring the application.

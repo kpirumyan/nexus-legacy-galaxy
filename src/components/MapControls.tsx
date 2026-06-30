@@ -1,15 +1,16 @@
 import { X, ChevronDown } from 'lucide-react';
 import { ARM_MAPPING } from '../lib/constants';
+import type { GalaxySystem } from '../types';
 
 interface Props {
   selectedArm: string;
   setSelectedArm: (arm: string) => void;
   selectedSector: string;
   setSelectedSector: (sector: string) => void;
-  uniqueArms: any[];
-  uniqueSectors: any[];
-  systems: any[];
-  filteredSystems: any[];
+  uniqueArms: (string | number)[];
+  uniqueSectors: (string | number)[];
+  systems: GalaxySystem[];
+  filteredSystems: GalaxySystem[];
   loading: boolean;
   error: string | null;
 }
@@ -204,8 +205,8 @@ export function MapControls({
       {!loading && !error && (
         <div style={{ fontSize: '12px', color: '#ccc', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div>Total Systems: <strong style={{ color: '#fff' }}>{filteredSystems.length}</strong></div>
-          <div>Explored: <strong style={{ color: '#52c41a' }}>{filteredSystems.filter((p: any) => p.visibility !== 'fog').length}</strong></div>
-          <div>Unexplored: <strong style={{ color: '#ff9800' }}>{filteredSystems.filter((p: any) => p.visibility === 'fog').length}</strong></div>
+          <div>Explored: <strong style={{ color: '#52c41a' }}>{filteredSystems.filter((p: GalaxySystem) => p.visibility !== 'fog').length}</strong></div>
+          <div>Unexplored: <strong style={{ color: '#ff9800' }}>{filteredSystems.filter((p: GalaxySystem) => p.visibility === 'fog').length}</strong></div>
         </div>
       )}
     </div>

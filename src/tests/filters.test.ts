@@ -1,5 +1,6 @@
 import { filterSystems } from '../lib/utils';
 import { describe, it, expect } from 'vitest';
+import type { GalaxySystem } from '../types';
 
 describe('filterSystems', () => {
   const mockSystems = [
@@ -8,7 +9,7 @@ describe('filterSystems', () => {
     { id: 3, armId: 2, sectorId: 10, name: 'System C' },
     { id: 4, armId: 2, sectorId: 30, name: 'System D' },
     { id: 5, armId: 3, sectorId: 40, name: 'System E' },
-  ];
+  ] as GalaxySystem[];
 
   it('should return all systems when arm and sector are "all"', () => {
     const result = filterSystems(mockSystems, 'all', 'all');
@@ -48,7 +49,7 @@ describe('filterSystems', () => {
     const systemsWithMixedTypes = [
       { id: 1, armId: '1', sectorId: '10' },
       { id: 2, armId: 2, sectorId: 20 },
-    ];
+    ] as unknown as GalaxySystem[];
     
     // Testing numeric value passed as string against number in object
     const result1 = filterSystems(systemsWithMixedTypes, '2', '20');

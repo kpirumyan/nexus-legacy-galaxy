@@ -1,25 +1,26 @@
 import { ARM_MAPPING } from './constants';
+import type { GalaxySystem } from '../types';
 
-export function formatSectorDisplay(sectorId: any, armId: any) {
+export function formatSectorDisplay(sectorId: string | number, armId: string | number | undefined) {
   if (String(sectorId) === '50') return 'The Rift Core';
   const armPrefix = armId ? (ARM_MAPPING[String(armId)]?.prefix || '') : '';
   const sId = Number(sectorId);
   return !isNaN(sId) ? `${armPrefix}${sId % 50}` : `${armPrefix}${sectorId}`;
 }
 
-export function formatArmDisplay(armId: any) {
+export function formatArmDisplay(armId: string | number) {
   return ARM_MAPPING[String(armId)]?.name || `Arm ${armId}`;
 }
 
-export function filterSystems(systems: any[], selectedArm: string, selectedSector: string) {
-  return systems.filter((p: any) => {
+export function filterSystems(systems: GalaxySystem[], selectedArm: string, selectedSector: string) {
+  return systems.filter((p: GalaxySystem) => {
     const armMatch = selectedArm === 'all' || String(p.armId) === selectedArm;
     const sectorMatch = selectedSector === 'all' || String(p.sectorId) === selectedSector;
     return armMatch && sectorMatch;
   });
 }
 
-export function processGalaxyData3D(data: any[]) {
+export function processGalaxyData3D(data: GalaxySystem[]) {
   let maxR = 0;
   for (const p of data) {
     const x = p.x || 0;

@@ -4,12 +4,13 @@ import { SidebarLayout } from './components/SidebarLayout';
 import { SidebarContent } from './components/SidebarContent';
 import { MapView } from './components/MapView';
 import { processGalaxyData3D } from './lib/utils';
+import type { GalaxySystem } from './types';
 
 export default function App() {
-  const [systems, setSystems] = useState<any[]>([]);
+  const [systems, setSystems] = useState<GalaxySystem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedObject, setSelectedObject] = useState<any | null>(null);
+  const [selectedObject, setSelectedObject] = useState<GalaxySystem | null>(null);
 
   useEffect(() => {
     async function fetchGalaxyMap() {
@@ -25,8 +26,8 @@ export default function App() {
         
         const processedData = processGalaxyData3D(systemsData);
         setSystems(processedData);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : String(err));
       } finally {
         setLoading(false);
       }
