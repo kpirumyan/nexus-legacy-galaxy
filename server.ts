@@ -37,10 +37,10 @@ async function startServer() {
       server: { middlewareMode: true },
       appType: "spa",
     });
-    app.use(vite.middlewares);
+    app.use(vite.middlewares as express.RequestHandler);
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    app.use(express.static(distPath) as express.RequestHandler);
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });

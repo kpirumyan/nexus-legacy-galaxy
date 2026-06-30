@@ -52,7 +52,7 @@ export function processGalaxyData3D(data: GalaxySystem[]) {
     const thickness = diskThickness + Math.exp(-(r * r) / (bulgeRadius * bulgeRadius)) * bulgeThickness;
     let z = randomNormal() * thickness;
     
-    let factor = 1;
+    let factor: number;
     if (r * r > z * z) {
       factor = Math.sqrt(r * r - z * z) / r;
     } else {

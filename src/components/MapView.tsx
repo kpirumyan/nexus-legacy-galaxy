@@ -47,7 +47,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
 
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         setDimensions({
           width: entry.contentRect.width,
           height: entry.contentRect.height
@@ -73,7 +73,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
       });
       const [x, y] = viewport.project([selectedObject.x || 0, selectedObject.y || 0, selectedObject.z || 0]);
       return { x, y };
-    } catch (e) {
+    } catch {
       return null;
     }
   };
@@ -96,9 +96,10 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
       .sort((a: unknown, b: unknown) => String(a).localeCompare(String(b), undefined, { numeric: true }));
   }, [systems, selectedArm]);
 
-  useEffect(() => {
+  const handleSetSelectedArm = (arm: string) => {
+    setSelectedArm(arm);
     setSelectedSector('all');
-  }, [selectedArm]);
+  };
 
   const filteredSystems = useMemo(() => {
     return filterSystems(systems, selectedArm, selectedSector);
@@ -331,7 +332,7 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
       
       <MapControls 
         selectedArm={selectedArm}
-        setSelectedArm={setSelectedArm}
+        setSelectedArm={handleSetSelectedArm}
         selectedSector={selectedSector}
         setSelectedSector={setSelectedSector}
         uniqueArms={uniqueArms}
