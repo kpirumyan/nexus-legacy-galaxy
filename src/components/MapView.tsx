@@ -4,6 +4,7 @@ import { OrthographicView, OrthographicViewport } from '@deck.gl/core';
 import { ScatterplotLayer, PathLayer, TextLayer } from '@deck.gl/layers';
 import { SimpleMeshLayer } from '@deck.gl/mesh-layers';
 import { SphereGeometry } from '@luma.gl/engine';
+import { RefreshCw } from 'lucide-react';
 
 import { INITIAL_VIEW_STATE, lightingEffect, STAR_CONFIGS, VISIBILITY_OPACITIES } from '../lib/constants';
 import { getHoverTooltip } from '../lib/tooltip';
@@ -336,6 +337,40 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
         loading={loading}
         error={error}
       />
+
+      <button
+        type="button"
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+          background: 'rgba(10,10,10,0.75)',
+          backdropFilter: 'blur(4px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          color: 'white',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontFamily: 'sans-serif',
+          fontSize: '13px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          transition: 'background-color 0.2s, border-color 0.2s',
+          pointerEvents: 'auto'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(10,10,10,0.75)';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+        }}
+      >
+        <RefreshCw size={14} />
+        Sync
+      </button>
     </div>
   );
 }
