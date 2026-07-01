@@ -253,13 +253,15 @@ export function MapView({ systems, loading, error, selectedObject, onSelectObjec
           const worldDx = dx / scale;
           const worldDy = dy / scale;
           
+          const newTarget: [number, number, number] = [
+            dragStartRef.current.target[0] - worldDx,
+            dragStartRef.current.target[1] - worldDy,
+            0
+          ];
+          
           setViewState((prev: typeof INITIAL_VIEW_STATE) => ({
             ...prev,
-            target: [
-              dragStartRef.current!.target[0] - worldDx,
-              dragStartRef.current!.target[1] - worldDy,
-              0
-            ]
+            target: newTarget
           }));
         }
       }}

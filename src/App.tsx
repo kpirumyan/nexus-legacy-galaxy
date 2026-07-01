@@ -36,10 +36,24 @@ export default function App() {
     fetchGalaxyMap();
   }, []);
 
+  const sidebar = (
+    <SidebarContent 
+      object={selectedObject} 
+    />
+  );
+
   return (
-    <SidebarLayout sidebarContent={<SidebarContent object={selectedObject} />}>
+    <SidebarLayout sidebarContent={sidebar}>
       <Routes>
-        <Route path="/" element={<MapView systems={systems} loading={loading} error={error} selectedObject={selectedObject} onSelectObject={setSelectedObject} />} />
+        <Route path="/" element={
+          <MapView 
+            systems={systems} 
+            loading={loading} 
+            error={error} 
+            selectedObject={selectedObject} 
+            onSelectObject={setSelectedObject} 
+          />
+        } />
       </Routes>
     </SidebarLayout>
   );

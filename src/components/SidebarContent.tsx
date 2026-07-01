@@ -1,13 +1,17 @@
 import React from 'react';
 import type { GalaxySystem } from '../types';
 
-export function SidebarContent({ object }: { object: GalaxySystem | null }) {
+export function SidebarContent({
+  object,
+}: {
+  object: GalaxySystem | null;
+}) {
   if (!object) {
     return (
       <div style={{ padding: '20px', color: '#fff', fontFamily: 'sans-serif' }}>
-        <h2 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: 'bold' }}>Properties</h2>
-        <p style={{ color: '#aaa', fontSize: '14px', lineHeight: '1.5' }}>
-          Select a system or object on the map to view detailed information here.
+        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>No Object Selected</h2>
+        <p style={{ fontSize: '13px', color: '#888', lineHeight: '1.4' }}>
+          Select a star system or trading hub on the map to view its details.
         </p>
       </div>
     );
@@ -16,12 +20,14 @@ export function SidebarContent({ object }: { object: GalaxySystem | null }) {
   const typeLabel = object.starType ? object.starType.replace('_', ' ') : 'Unknown';
   
   return (
-    <div style={{ padding: '20px', color: '#fff', fontFamily: 'sans-serif' }}>
-      <h2 style={{ margin: '0 0 4px 0', fontSize: '20px', fontWeight: 'bold', color: object.isTradingHub ? '#ffd700' : '#fff' }}>
-        {object.name || 'Unknown System'}
-      </h2>
-      <div style={{ fontSize: '12px', color: '#888', marginBottom: '24px', textTransform: 'capitalize' }}>
-        Sector {object.sectorId} • {object.visibility} Info
+    <div style={{ padding: '20px', color: '#fff', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div>
+        <h2 style={{ margin: '0 0 4px 0', fontSize: '20px', fontWeight: 'bold', color: object.isTradingHub ? '#ffd700' : '#fff' }}>
+          {object.name || 'Unknown System'}
+        </h2>
+        <div style={{ fontSize: '12px', color: '#888', textTransform: 'capitalize' }}>
+          Sector {object.sectorId} • {object.visibility} Info
+        </div>
       </div>
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

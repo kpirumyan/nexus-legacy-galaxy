@@ -53,3 +53,4 @@ export interface MapViewProps {
   selectedObject: GalaxySystem | null;
   onSelectObject: (obj: GalaxySystem | null) => void;
 }
+

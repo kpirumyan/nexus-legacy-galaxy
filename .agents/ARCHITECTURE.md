@@ -14,14 +14,17 @@ This application is a React-based 3D Galaxy Map visualizer. It uses `deck.gl` fo
   - `SidebarLayout.tsx` & `SidebarContent.tsx`: Application sidebar layout and content elements.
 - `/src/types/`: Centralized TypeScript interfaces and type definitions. All domain and component types MUST be declared here to ensure a single source of truth.
 - `/src/lib/`: Reusable logic and constants.
+  - `firebase.ts`: Firebase SDK client initialization.
   - `constants.ts`: Global configuration including map visual states, lighting effects, color mappings for stars (`STAR_CONFIGS`), and arm/sector data definitions.
   - `utils.ts`: Data processing functions, including `processGalaxyData3D` which translates 2D planetary coordinates into 3D positions, simulating a galactic disk thickness and central bulge.
   - `tooltip.ts`: Logic for generating HTML tooltips displayed when hovering over systems in `deck.gl`.
 - `/src/App.tsx`: Main application entry point. Handles global state management (e.g., loading planet data) and sets up routing.
+- `/src/tests/`: Automated unit and interaction tests.
+  - `MapView.test.tsx`: Validates complex 3D map interactions, tooltips, cursors, custom popups, and dragging via high-fidelity mock harnesses of `@deck.gl/react` and `@deck.gl/core`.
 
 ## State Management
 State is managed via React's built-in hooks (`useState`, `useMemo`, `useEffect`).
-- Global data (`planets`) is fetched and stored in `App.tsx` and passed down to `MapView.tsx` as props.
+- Global data is fetched and stored in `App.tsx` and passed down to `MapView.tsx` as props.
 - Map view state (camera position, selected objects) and filtering state (selected arm/sector) are maintained in `MapView.tsx` and propagated to controls.
 
 ## Types and Interfaces

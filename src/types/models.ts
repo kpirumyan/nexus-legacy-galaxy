@@ -17,3 +17,4 @@ export interface GalaxySystem {
   securityZone?: string;
   hasColonies?: boolean;
 }
+
